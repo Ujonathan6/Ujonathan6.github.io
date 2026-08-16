@@ -41,20 +41,34 @@ import figmaLogo from '../assets/logos/Figma-logo.svg';
         'https://www.linkedin.com/in/guilherme-hubie/',
       ],
     })} />
+
 	</head>
 	<body>
 		<Header />
 		<main>
-      <HeroSection
-        title="Your Headline Goes Here!"
-        subtitle="I build softwares that brings you loyal subscribers."
-        showCTA
-        primaryCTA={{ text: 'View Projects', href: '/portfolio' }}
-        secondaryCTA={{ text: 'Read Blog', href: '/blog' }}
+            <HeroSection 
+        title="Your Headline Goes Here!" 
+        subtitle="I build softwares that brings you loyal subscribers." 
+        showCTA 
+        primaryCTA={{ text: 'View Projects', href: '/portfolio' }} 
+        secondaryCTA={{ text: 'Read Blog', href: '/blog' }} 
       />
-     
 
-    <section class="py-6">
+      <section class="video-section">
+        <h2>Mi video</h2>
+
+        <div class="video-container">
+          <iframe
+            src="https://www.youtube.com/embed/VtbmEBHDD5k"
+            title="Video de YouTube"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </section>
+
+      <section class="py-6">
+
       <ArrowSeparator />
       <SkillsSection title="Skills & Tools" skills={skills} />   
       <ArrowSeparator />
@@ -67,3 +81,29 @@ import figmaLogo from '../assets/logos/Figma-logo.svg';
 		<Footer />
 	</body>
 </html>
+
+<style>
+  .video-section {
+    max-width: 1000px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+
+  .video-section h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .video-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .video-container iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>
