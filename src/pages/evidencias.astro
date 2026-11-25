@@ -2,7 +2,104 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/sections/Header.astro';
 import Footer from '../components/sections/Footer.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+import { SITE_TITLE } from '../consts';
+import { slugifyCategory } from '../data/categories';
+
+const BLOB = 'https://github.com/Ujonathan6/Ujonathan6.github.io/blob/main/scripts-bd2';
+const TREE = 'https://github.com/Ujonathan6/Ujonathan6.github.io/tree/main/scripts-bd2';
+
+const posts = (await getCollection('blog')).sort((a, b) => +a.data.pubDate - +b.data.pubDate);
+const entradasDe = (slug: string) =>
+  posts.filter((p) => slugifyCategory(p.data.category || '') === slug);
+
+const evidencias = [
+  {
+    numero: '01',
+    titulo: 'SQL',
+    descripcion: 'SQL avanzado sobre Oracle usando el esquema HR.',
+    temas: [
+      'DDL, DML, DCL y TCL',
+      'Propiedades ACID',
+      'Vistas',
+      'INNER, LEFT, RIGHT y FULL JOIN',
+      'Self, Cross y Natural JOIN',
+      'Manejo de NULL',
+      'Subconsultas',
+      'CTE recursiva',
+      'Funciones de ventana',
+      'Índices y particionamiento',
+    ],
+    carpeta: '01-sql-avanzado',
+    scripts: [
+      { nombre: 'Vistas y JOINs (empleados de Europa)', ruta: '01-sql-avanzado/01_vistas_y_joins_europa.sql' },
+      { nombre: 'Tipos de JOIN', ruta: '01-sql-avanzado/02_tipos_de_join.sql' },
+      { nombre: 'Práctica INNER y LEFT JOIN', ruta: '01-sql-avanzado/03_practica_inner_left_join.sql' },
+      { nombre: 'Práctica self join y FULL OUTER JOIN', ruta: '01-sql-avanzado/04_practica_self_join_full_outer.sql' },
+      { nombre: 'NULL, subconsultas, CTE y ventanas', ruta: '01-sql-avanzado/05_nulls_subconsultas_cte_ventanas.sql' },
+      { nombre: 'Taller: depuración de consultas', ruta: '01-sql-avanzado/06_taller_depuracion_consultas.sql' },
+      { nombre: 'Práctica nueva: ranking, LAG, ROLLUP', ruta: '05-practica-nueva/01_sql_practica_hr.sql', nueva: true },
+      { nombre: 'Práctica nueva: índices, columna virtual y particiones', ruta: '05-practica-nueva/04_sql_indices_particionamiento.sql', nueva: true },
+    ],
+    analisis: '/blog/category/sql',
+  },
+  {
+    numero: '02',
+    titulo: 'PL/SQL Scripts',
+    descripcion: 'Programación dentro de la base de datos con Oracle PL/SQL.',
+    temas: [
+      'Bloques anónimos',
+      'Variables y convención de nombres',
+      '%TYPE y %ROWTYPE',
+      'DBMS_OUTPUT',
+      'Cursores explícitos con parámetros',
+      'Excepciones propias',
+    ],
+    carpeta: '02-plsql',
+    scripts: [
+      { nombre: 'Bloque anónimo con %ROWTYPE', ruta: '02-plsql/01_bloque_anonimo_rowtype.sql' },
+      { nombre: 'Cursor explícito parametrizado', ruta: '02-plsql/02_cursor_explicito_parametrizado.sql' },
+      { nombre: 'Práctica nueva: función, procedimiento y trigger', ruta: '05-practica-nueva/02_plsql_practica.sql', nueva: true },
+    ],
+    analisis: '/blog/category/plsql',
+  },
+  {
+    numero: '03',
+    titulo: 'NoSQL',
+    descripcion: 'MongoDB, lenguaje MQL y patrones de datos NoSQL.',
+    temas: [
+      'Colecciones y documentos',
+      'Operadores de consulta MQL',
+      'Objetos anidados y arreglos',
+      'Pipeline de agregación',
+      'Patrones de datos NoSQL',
+    ],
+    carpeta: '03-nosql-mongodb',
+    scripts: [
+      { nombre: 'Notas: operadores de MQL', ruta: '03-nosql-mongodb/notas_operadores_mql.txt' },
+      { nombre: 'Notas: patrones de datos NoSQL', ruta: '03-nosql-mongodb/notas_patrones_nosql.txt' },
+      { nombre: 'Práctica nueva: consultas y agregaciones', ruta: '05-practica-nueva/03_mongodb_practica.js', nueva: true },
+    ],
+    analisis: '/blog/category/nosql',
+  },
+  {
+    numero: '04',
+    titulo: 'Investigaciones',
+    descripcion: 'Pequeñas investigaciones sobre temas de la asignatura.',
+    temas: [
+      'OLTP y Data Warehouse',
+      'Modelos estrella y copo de nieve',
+      'ETL vs ELT',
+      'RPO y alta disponibilidad',
+      'Backups y restauración',
+    ],
+    carpeta: '03-nosql-mongodb',
+    scripts: [
+      { nombre: 'Notas: procesos ETL y DWH', ruta: '03-nosql-mongodb/notas_etl_dwh.txt' },
+    ],
+    analisis: '/blog/category/investigacion',
+  },
+];
 ---
 
 <!doctype html>
@@ -10,7 +107,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   <head>
     <BaseHead
       title={`Evidencias | ${SITE_TITLE}`}
-      description="Evidencias académicas de SQL, PL/SQL Scripts, NoSQL y Proyecto."
+      description="Evidencias académicas de Bases de Datos 2: SQL, PL/SQL, NoSQL e investigaciones, con sus scripts."
     />
   </head>
 
@@ -21,65 +118,52 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
       <section class="evidencias-header">
         <span class="section-label">PORTAFOLIO ACADÉMICO</span>
-
         <h1>Evidencias</h1>
-
         <p>
-          En esta sección se encuentran las evidencias y trabajos
-          desarrollados durante el curso.
+          Temas vistos en Bases de Datos 2 y los scripts desarrollados en cada uno.
+          El código está versionado en este mismo repositorio; en cada tema
+          explico el contexto, el resultado y lo que aprendí.
         </p>
+        <a class="repo-link" href={TREE} target="_blank" rel="noopener">
+          Ver todos los scripts en GitHub →
+        </a>
       </section>
 
       <section class="evidencias-grid">
+        {evidencias.map((e) => (
+          <article class="evidencia-card">
+            <span class="card-number">{e.numero}</span>
+            <h2>{e.titulo}</h2>
+            <p class="descripcion">{e.descripcion}</p>
 
-        <div class="evidencia-card">
-          <span class="card-number">01</span>
+            <h3>Temas</h3>
+            <ul class="chips">
+              {e.temas.map((t) => <li>{t}</li>)}
+            </ul>
 
-          <h2>SQL</h2>
+            <h3>Análisis ({entradasDe(e.analisis.split('/').pop()).length} entradas)</h3>
+            <ul class="scripts">
+              {entradasDe(e.analisis.split('/').pop()).map((p) => (
+                <li><a href={`/blog/${p.id}`}>{p.data.title}</a></li>
+              ))}
+            </ul>
 
-          <p>
-            Consultas y ejercicios desarrollados utilizando SQL.
-          </p>
+            <h3>Scripts</h3>
+            <ul class="scripts">
+              {e.scripts.map((s) => (
+                <li>
+                  <a href={`${BLOB}/${s.ruta}`} target="_blank" rel="noopener">{s.nombre}</a>
+                  {s.nueva && <span class="tag">nuevo</span>}
+                </li>
+              ))}
+            </ul>
 
-          <span class="status">Próximamente</span>
-        </div>
-
-        <div class="evidencia-card">
-          <span class="card-number">02</span>
-
-          <h2>PL/SQL Scripts</h2>
-
-          <p>
-            Scripts y ejercicios desarrollados utilizando PL/SQL.
-          </p>
-
-          <span class="status">Próximamente</span>
-        </div>
-
-        <div class="evidencia-card">
-          <span class="card-number">03</span>
-
-          <h2>NoSQL</h2>
-
-          <p>
-            Evidencias relacionadas con bases de datos NoSQL.
-          </p>
-
-          <span class="status">Próximamente</span>
-        </div>
-
-        <div class="evidencia-card">
-          <span class="card-number">04</span>
-
-          <h2>Proyecto</h2>
-
-          <p>
-            Evidencias y avances del proyecto desarrollado durante el curso.
-          </p>
-
-          <span class="status">Próximamente</span>
-        </div>
-
+            <div class="acciones">
+              <a class="status" href={e.analisis}>Ver todas las entradas →</a>
+              <a class="status" href={`${TREE}/${e.carpeta}`} target="_blank" rel="noopener">Carpeta en GitHub</a>
+            </div>
+          </article>
+        ))}
       </section>
 
     </main>
@@ -116,9 +200,19 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
   .evidencias-header p {
     max-width: 650px;
-    margin: 0 auto;
+    margin: 0 auto 1.5rem;
     color: var(--color-text-secondary);
     line-height: 1.7;
+  }
+
+  .repo-link {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .repo-link:hover {
+    text-decoration: underline;
   }
 
   .evidencias-grid {
@@ -128,6 +222,8 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   }
 
   .evidencia-card {
+    display: flex;
+    flex-direction: column;
     padding: 2rem;
     border: 1px solid var(--color-border);
     border-radius: 18px;
@@ -155,10 +251,76 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     margin-bottom: 0.75rem;
   }
 
-  .evidencia-card p {
-    margin-bottom: 1.5rem;
+  .descripcion {
+    margin-bottom: 1.25rem;
     color: var(--color-text-secondary);
     line-height: 1.6;
+  }
+
+  .evidencia-card h3 {
+    margin: 1rem 0 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chips li {
+    padding: 0.25rem 0.65rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    color: var(--color-text-secondary);
+  }
+
+  .scripts {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .scripts li {
+    padding: 0.35rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .scripts a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--color-border);
+  }
+
+  .scripts a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .tag {
+    margin-left: 0.5rem;
+    padding: 0.1rem 0.45rem;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    font-size: 0.65rem;
+    color: var(--accent);
+  }
+
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
   }
 
   .status {
@@ -168,6 +330,12 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     border-radius: 999px;
     font-size: 0.75rem;
     color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+
+  .status:hover {
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
   @media (max-width: 768px) {
