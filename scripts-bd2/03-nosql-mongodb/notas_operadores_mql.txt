@@ -1,0 +1,133 @@
+Una base de datos no relacionales en mongo no se llaman igual, ya no son tablas, ya no son filas, los nombres de los conceptos serán distintos.
+
+Tabla = colección (encierra un documento [un documento .json]) 
+
+
+
+
+Identificar que tipo de bases de datos le conviene mas al proyecto
+
+lenguaje mql mongodb (Predicados de query):
+
+
+
+
+$all
+
+Coincide con arreglos que contienen todos los elementos especificados en el query.
+
+$and
+
+Une las cláusulas del query con un AND lógico y devuelve documentos que coinciden con las condiciones de todas las cláusulas.
+
+$bitsAllClear
+
+Coincide con valores numéricos o binarios en los que todas las posiciones de un conjunto de bits tienen un valor de 0.
+
+$bitsAllSet
+
+Coincide con valores numéricos o binarios en los que todas las posiciones de un conjunto de bits tienen un valor de 1.
+
+$bitsAnyClear
+
+Coincide con valores numéricos o binarios en los que cualquier bit de un conjunto de posiciones de bits tenga un valor de 0.
+
+$bitsAnySet
+
+Coincide con valores numéricos o binarios en los que cualquier bit de un conjunto de posiciones de bits tenga un valor de 1.
+
+$elemMatch
+
+Selecciona documentos si al menos un elemento en el campo de arreglo coincide con todas las condiciones $elemMatch específicas.
+
+$eq
+
+Coincide con los valores que son iguales a un valor específico.
+
+$exists
+
+Coincide con los documentos que tienen el campo especificado.
+
+$expr
+
+Permite el uso de expresiones en predicados de query.
+
+$geoIntersects
+
+Selecciona geometrías que se intersecan con una geometría GeoJSON. Requiere un índice 2dsphere.
+
+$geoWithin
+
+Selecciona geometrías dentro de una geometría GeoJSON delimitadora. Requiere un índice 2dsphere o 2d.
+
+$gt
+
+Coincide con valores que son mayores que un valor especificado.
+
+$gte
+
+Coincide con valores que son mayores o iguales a un valor especificado.
+
+$jsonSchema
+
+Valida documentos contra el JSON Schema proporcionado.
+
+$in
+
+Coincide con cualquiera de los valores especificados en un arreglo.
+
+$lt
+
+Coincide con valores que son menores que un valor especificado.
+
+$lte
+
+Coincide con valores que son menores o iguales a un valor especificado.
+
+$mod
+
+Coincide documentos basándose en el resultado de una operación módulo sobre el valor de un campo.
+
+$ne
+
+Coincide con todos los valores que no sean iguales a un valor especificado.
+
+$near
+
+Devuelve objetos geoespaciales en proximidad a un punto. Requiere un índice 2dsphere o 2d.
+
+$nearSphere
+
+Devuelve objetos geoespaciales en proximidad a un punto en una esfera. Requiere un índice 2dsphere o 2d.
+
+$nin
+
+Coincide si el valor no es igual a ninguno de los valores de una lista dada.
+
+$nor
+
+Une las cláusulas del query con un NOR lógico y devuelve todos los documentos que no cumplen con todas las cláusulas.
+
+$not
+
+Invierte el efecto de un predicado del query y devuelve documentos que no coinciden con el predicado del query.
+
+$or
+
+Une las cláusulas de query con un OR lógico y devuelve todos los documentos que coinciden con al menos una cláusula.
+
+$regex
+
+Coincide con documentos cuyos valores coinciden con una expresión regular especificada.
+
+$size
+
+Selecciona documentos si el campo de arreglo contiene el número específico de elementos.
+
+$type
+
+Coincide con documentos si un campo es del tipo especificado.
+
+$where
+
+Coincide con documentos que satisfacen una expresión de JavaScript.

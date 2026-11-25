@@ -1,0 +1,33 @@
+
+Procesos ETL   
+
+Las BD no guardan información, guardan datos
+
+DWH (data warehouse): Bodega de datos
+
+Modelos
+- Estrella 
+- Copo de nieve
+
+oltp 
+(procesos de transacción online =ONL)
+
+
+ETL : extracción, transformación y carga
+ELT : extracción, carga y transformación
+
+fuentes de información (algunos datos pasan por medio del ETL al data warehouse Y termina mostrando un Business intelligence)
+
+
+ETL (se crea el flujo, fuentes, procesos de limpieza, llevar los datos donde se diga)
+
+ Herramienta para usar el ETL: Pentaho
+
+En el peor de los casos lo primero que hay que salvar son los datos
+
+RPO: Cuanto tiempo puedo estar afuera, cuanto tiempo puedo, cuantos datos puedo perder (determina cuántos datos puede permitirse perder una organización medidos en el tiempo, desde el momento en que ocurre un fallo hacia el pasado)
+
+"Alta disponibilidad" para BD
+
+
+-Backups y restauración: copia de seguridad

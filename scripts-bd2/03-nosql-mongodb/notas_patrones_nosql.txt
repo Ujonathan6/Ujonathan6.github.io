@@ -1,0 +1,16 @@
+Patrones de datos NoSQL
+
+Patron embedido
+
+Patron atribute
+
+Patron polimórfico:
+
+Patron reference
+	(Integridad referencial)
+
+Patron tipo Bucket
+
+Patron de computo
+
+Patron Subset

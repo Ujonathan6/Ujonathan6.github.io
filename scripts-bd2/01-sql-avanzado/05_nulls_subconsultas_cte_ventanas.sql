@@ -1,0 +1,127 @@
+-- Contexto: NULL, ANTI JOIN, subconsultas, CTE recursiva (con su correccion) y funciones de ventana.
+
+-- =,>,<,<=,>=, <> O =!,ETC. COMPARISON OPERATORS
+
+-- WHERE SALARY BETWEEN 1000 AND 5000;
+-- WHERE DEPARTMENT_ID IN (10,50,100)
+-- WHERE FIRST_NAME LIKE 'And%' (And, Andy, Andres)
+-- NOT LIKE Y NOT IN
+-- IS NULL
+--IS NOT NULL
+
+
+--CLAUSULAS
+--SELECT CASE
+--CASE, DECODE, COALESE
+
+SELECT CASE WHEN NULL = NULL THEN 'TRUE'
+    WHEN NULL <> NULL THEN 'FALSE'
+    ELSE 'NI ES UNO NI ES OTRO' END As Resultado
+FROM DUAL;
+
+SELECT SYSDATE
+FROM DUAL;
+
+SELECT 'America de cali sera campeón en el: ' ||
+TO_CHAR(SYSDATE, 'YYYY')
+FROM HR.EMPLOYEES;
+
+
+--ANTI JOIN
+SELECT D.DEPARTMENT_NAME
+FROM HR.DEPARTMENTS D
+LEFT JOIN HR.EMPLOYEES E ON d.department_id = e.department_id
+WHERE E.EMPLOYEE_ID IS NULL;
+
+
+SELECT D.DEPARTMENT_NAME,
+    E.LAST_NAME
+FROM HR.DEPARTMENTS D
+LEFT JOIN HR.EMPLOYEES E ON d.department_id  = e.department_id
+WHERE e.salary> 5000;
+
+--Mientras se esta ejecutando el join va comparando ,ESTUDIAR LA DIFERENCIA
+SELECT D.DEPARTMENT_NAME,
+    E.LAST_NAME
+FROM HR.DEPARTMENTS D
+LEFT JOIN HR.EMPLOYEES E ON d.department_id  = e.department_id
+AND e.salary> 5000;
+
+SELECT COUNT (*) AS Filas,
+    COUNT (commission_pct) AS Con_Comision,
+    AVG (commission_pct) AS prom_real
+FROM HR.employees;
+
+
+--Etas funciones descartan los valores null
+
+SELECT SUM (commission_pct)/ COUNT (commission_pct) AS prom_real
+FROM HR.employees;
+
+
+
+SELECT e.last_name,
+    (select count(*)
+    from HR.employees c
+    WHERE C.DEPARTMENT_ID = E.DEPARTMENT_ID)
+compañeros
+FROM HR.EMPLOYEES e;
+    
+SELECT FIRST_NAME, COUNT (1)
+FROM HR.employees
+WHERE department_id IN (
+SELECT DEPARTMENT_ID
+FROM HR.EMPLOYEES
+WHERE LAST_NAME = 'King')
+GROUP BY FIRST_NAME;
+
+
+
+--CTD
+WITH jerarquia( employee_id, last_name, manager_id, nivel) AS (
+SELECT EMPLOYEE_ID, LAST_NAME, MANAGER_ID,1
+FROM HR.EMPLOYEES E
+WHERE MANAGER_ID IS NULL
+UNION  ALL
+
+SELECT E.EMPLOYEE_ID, E.LAST_NAME, E.MANAGER_ID, J.NIVEL + 1
+FROM HR.EMPOYEES E JOIN JERARQUIA J ON E.MANAGER_ID =J.EMPLOYEED_ID
+WHERE MANAGER_ID IS NULL
+)
+CYCLE EMPLOYEE_ID SET ES_CICLO TO 'Y' DEFAULT 'N'
+SELECT LAST_NAME, NIVEL, ES_CICLO FROM JERARQUIA;
+
+--Coreccion
+
+
+WITH jerarquia(employee_id, last_name, manager_id, nivel) AS (
+    SELECT EMPLOYEE_ID, LAST_NAME, MANAGER_ID, 1
+    FROM HR.EMPLOYEES
+    WHERE MANAGER_ID IS NULL
+    
+    UNION ALL
+    
+    SELECT E.EMPLOYEE_ID, E.LAST_NAME, E.MANAGER_ID, J.nivel + 1
+    FROM HR.EMPLOYEES E 
+    JOIN jerarquia J ON E.MANAGER_ID = J.employee_id
+)
+CYCLE employee_id SET es_ciclo TO 'Y' DEFAULT 'N'
+SELECT LAST_NAME, NIVEL, ES_CICLO FROM jerarquia;
+
+--OVER fUNCIONES DE GRUPO DENTRO DE FUNCIONES DE GRUPO
+
+SELECT DEPARTMENT_ID,SUM (SALARY) AS Nomina,
+    SUM(SUM(salary)) OVER () AS
+nomina_total
+FROM HR.EMPLOYEES
+GROUP BY DEPARTMENT_ID;
+
+
+SELECT last_name, salary,
+       SUM (salary) OVER ( ORDER BY salary
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) As acum_rows,
+       SUM (salary) OVER (ORDER BY salary
+            RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) As acum_range
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID = 90
+ORDER BY SALARY;
