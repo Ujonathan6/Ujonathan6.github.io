@@ -41,3 +41,9 @@ export function getCategoryMeta(slugOrName: string): CategoryMeta {
 
 export function slugifyCategory(name: string): string { return toSlug(name); }
 
+
+'sql':           { title: 'SQL',           description: 'Ejercicios y análisis de SQL avanzado sobre Oracle.' },
+'plsql':         { title: 'PL/SQL',        description: 'Bloques, cursores, excepciones y programas almacenados en Oracle.' },
+'nosql':         { title: 'NoSQL',         description: 'MongoDB, MQL y patrones de diseño de datos.' },
+'investigacion': { title: 'Investigación', description: 'Pequeñas investigaciones sobre temas de la asignatura.' },
+
